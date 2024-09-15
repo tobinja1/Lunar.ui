@@ -1,0 +1,31 @@
+html {
+    background-color: black;
+    overflow-x: hidden;
+}
+
+* {
+    font-family: sans-serif;
+    color: white;
+}
+
+p {
+    font-size: 0.8rem;
+    color: gray;
+}
+
+a {
+    text-decoration: underline;
+    color: gray;
+}
+
+.content {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.bottom {
+    position: absolute;
+    bottom: 5px;
+}
