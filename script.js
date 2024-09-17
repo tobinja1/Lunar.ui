@@ -1,8 +1,7 @@
-
 var hydra = new Hydra({
-    canvas: document.getElementById("myCanvas"),
     detectAudio: false,
     enableStreamCapture: false,
+    autoLoop: true, // if true, will automatically loop using requestAnimationFrame.If set to false, you must implement your own loop function using the tick() method (below)
   })
 
 const knob = document.getElementById("knob-inner");
@@ -20,9 +19,9 @@ let lastDistance = 0;
 
 let randOnInit = Math.random();
 
-  noise(3,distance,7)
+  noise(3,0.1,7)
   .rotate(1,-1,-2).mask(shape(randOnInit * 20 + 1))
-  .colorama(randOnInit)
+  .colorama(randOnInit * distance)
   .modulateScale(o0)
   .modulateScale(o0,1.5,)
   .blend(o0)
