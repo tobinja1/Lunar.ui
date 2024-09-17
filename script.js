@@ -1,7 +1,8 @@
 var hydra = new Hydra({
     detectAudio: false,
     enableStreamCapture: false,
-    autoLoop: true, // if true, will automatically loop using requestAnimationFrame.If set to false, you must implement your own loop function using the tick() method (below)
+    autoLoop: true,
+    makeGlobal: true,
   })
 
 const knob = document.getElementById("knob-inner");
@@ -9,11 +10,9 @@ const currentValue = 0;
 const progressRing = document.getElementById("progress-ring");
   
 let center = 0;
-let distance = 0;
+var distance = 0;
 let mouseIsDown = false;
 let lastDistance = 0;
-
-//variable for the knob, instantiated here since it comes first in the html
 
 //hydra
 
@@ -62,4 +61,5 @@ let randOnInit = Math.random();
       console.log(distance);
     }
   });
+
   
