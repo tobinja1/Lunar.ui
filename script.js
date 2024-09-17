@@ -20,7 +20,7 @@ let randOnInit = Math.random();
 
   noise(3,0.1,7)
   .rotate(1,-1,-2).mask(shape(randOnInit * 20 + 1))
-  .colorama(randOnInit * distance)
+  .colorama(()=>randOnInit*distance/360)
   .modulateScale(o0)
   .modulateScale(o0,1.5,)
   .blend(o0)
@@ -57,8 +57,7 @@ let randOnInit = Math.random();
       const newDistance = clamp(lastDistance + (center - e.pageY), 360, 0);
       distance = newDistance;
       knob.style.transform = "rotate(" + distance + "deg)";
-      progressRing.style.background = `conic-gradient(red 0deg, red ${distance}deg, lightgray ${distance}deg 360deg)`;
-      console.log(distance);
+      progressRing.style.background = `conic-gradient(white 0deg, white ${distance}deg, black ${distance}deg 360deg)`;
     }
   });
 
