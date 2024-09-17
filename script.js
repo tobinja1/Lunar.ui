@@ -57,7 +57,7 @@ let randOnInit = Math.random();
       const newDistance = clamp(lastDistance + (center - e.pageY), 360, 0);
       distance = newDistance;
       knob.style.transform = "rotate(" + distance + "deg)";
-      progressRing.style.background = `conic-gradient(white 0deg, white ${distance}deg, black ${distance}deg 360deg)`;
+      progressRing.style.background = `conic-gradient(hotpink 0deg, hotpink ${distance}deg, black ${distance}deg 360deg)`;
     }
   });
 

@@ -120,6 +120,6 @@ a {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background: conic-gradient(white 0deg, white 0deg, black 0deg 360deg);
+    background: conic-gradient(hotpink 0deg, hotpink 0deg, black 0deg 360deg);
     z-index: -1;
   }
