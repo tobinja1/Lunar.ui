@@ -42,6 +42,12 @@ let randOnInit = Math.random();
     center = e.pageY;
     mouseIsDown = true;
   });
+
+  knob.addEventListener("touchstart", (e) => {
+    // Set the center based on the mouse's starting position
+    center = e.pageY;
+    mouseIsDown = true;
+  });
   
   document.addEventListener("mouseup", () => {
     if (mouseIsDown) {
@@ -50,8 +56,26 @@ let randOnInit = Math.random();
       lastDistance = distance;
     }
   });
+
+  document.addEventListener("touchend", () => {
+    if (mouseIsDown) {
+      mouseIsDown = false;
+      // Store the current distance for the next drag
+      lastDistance = distance;
+    }
+  });
   
   knob.addEventListener("mousemove", (e) => {
+    if (mouseIsDown) {
+      // Calculate the new distance relative to lastDistance
+      const newDistance = clamp(lastDistance + (center - e.pageY), 360, 0);
+      distance = newDistance;
+      knob.style.transform = "rotate(" + distance + "deg)";
+      progressRing.style.background = `conic-gradient(hotpink 0deg, hotpink ${distance}deg, black ${distance}deg 360deg)`;
+    }
+  });
+
+  knob.addEventListener("touchmove", (e) => {
     if (mouseIsDown) {
       // Calculate the new distance relative to lastDistance
       const newDistance = clamp(lastDistance + (center - e.pageY), 360, 0);
