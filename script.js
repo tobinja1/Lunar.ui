@@ -30,59 +30,48 @@ let randOnInit = Math.random();
   .out(o0)
 
 //hydra
-  
-  function clamp(value, max, min) {
-    if (value > max) return max;
-    if (value < min) return min;
-    return value;
+function clamp(value, max, min) {
+    return Math.max(min, Math.min(max, value)); // Ensures value stays between min and max
   }
   
-  knob.addEventListener("mousedown", (e) => {
-    // Set the center based on the mouse's starting position
-    center = e.pageY;
+  // Function to handle the start of interaction (mouse or touch)
+  function startInteraction(pageY) {
+    center = pageY;
     mouseIsDown = true;
-  });
-
+  }
+  
+  // Function to handle movement (mouse or touch)
+  function moveInteraction(pageY) {
+    if (mouseIsDown) {
+      const newDistance = clamp(lastDistance + (center - pageY), 360, 0);
+      distance = newDistance;
+      knob.style.transform = "rotate(" + distance + "deg)";
+      progressRing.style.background = `conic-gradient(hotpink 0deg, hotpink ${distance}deg, black ${distance}deg 360deg)`;
+    }
+  }
+  
+  // Function to handle the end of interaction (mouse or touch)
+  function endInteraction() {
+    if (mouseIsDown) {
+      mouseIsDown = false;
+      lastDistance = distance;
+    }
+  }
+  
+  // Desktop events
+  knob.addEventListener("mousedown", (e) => startInteraction(e.pageY));
+  document.addEventListener("mousemove", (e) => moveInteraction(e.pageY));
+  document.addEventListener("mouseup", () => endInteraction());
+  
+  // Mobile events
   knob.addEventListener("touchstart", (e) => {
-    // Set the center based on the mouse's starting position
-    center = e.pageY;
-    mouseIsDown = true;
+    const touch = e.touches[0]; // Get the first touch point
+    startInteraction(touch.pageY);
   });
   
-  document.addEventListener("mouseup", () => {
-    if (mouseIsDown) {
-      mouseIsDown = false;
-      // Store the current distance for the next drag
-      lastDistance = distance;
-    }
-  });
-
-  document.addEventListener("touchend", () => {
-    if (mouseIsDown) {
-      mouseIsDown = false;
-      // Store the current distance for the next drag
-      lastDistance = distance;
-    }
+  document.addEventListener("touchmove", (e) => {
+    const touch = e.touches[0];
+    moveInteraction(touch.pageY);
   });
   
-  knob.addEventListener("mousemove", (e) => {
-    if (mouseIsDown) {
-      // Calculate the new distance relative to lastDistance
-      const newDistance = clamp(lastDistance + (center - e.pageY), 360, 0);
-      distance = newDistance;
-      knob.style.transform = "rotate(" + distance + "deg)";
-      progressRing.style.background = `conic-gradient(hotpink 0deg, hotpink ${distance}deg, black ${distance}deg 360deg)`;
-    }
-  });
-
-  knob.addEventListener("touchmove", (e) => {
-    if (mouseIsDown) {
-      // Calculate the new distance relative to lastDistance
-      const newDistance = clamp(lastDistance + (center - e.pageY), 360, 0);
-      distance = newDistance;
-      knob.style.transform = "rotate(" + distance + "deg)";
-      progressRing.style.background = `conic-gradient(hotpink 0deg, hotpink ${distance}deg, black ${distance}deg 360deg)`;
-    }
-  });
-
-  
+  document.addEventListener("touchend", () => endInteraction());
