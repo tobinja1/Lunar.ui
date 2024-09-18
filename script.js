@@ -31,26 +31,22 @@ let randOnInit = Math.random();
 
 //hydra
 function clamp(value, max, min) {
-    return Math.max(min, Math.min(max, value)); // Ensures value stays between min and max
+    return Math.max(min, Math.min(max, value));
   }
   
-  // Function to handle the start of interaction (mouse or touch)
   function startInteraction(pageY) {
     center = pageY;
     mouseIsDown = true;
   }
   
-  // Function to handle movement (mouse or touch)
   function moveInteraction(pageY) {
     if (mouseIsDown) {
       const newDistance = clamp(lastDistance + (center - pageY), 360, 0);
       distance = newDistance;
-      knob.style.transform = "rotate(" + distance + "deg)";
       progressRing.style.background = `conic-gradient(hotpink 0deg, hotpink ${distance}deg, black ${distance}deg 360deg)`;
     }
   }
   
-  // Function to handle the end of interaction (mouse or touch)
   function endInteraction() {
     if (mouseIsDown) {
       mouseIsDown = false;
@@ -63,8 +59,8 @@ function clamp(value, max, min) {
   document.addEventListener("mousemove", (e) => moveInteraction(e.pageY));
   document.addEventListener("mouseup", () => endInteraction());
   
-  // Mobile events
-  knob.addEventListener("touchstart", (e) => {
+  // Mobile events (mobile reacts to any touch at all)
+  document.addEventListener("touchstart", (e) => {
     const touch = e.touches[0]; // Get the first touch point
     startInteraction(touch.pageY);
   });
