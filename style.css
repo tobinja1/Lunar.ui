@@ -10,7 +10,7 @@ html {
 }
 
 p {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     color: black;
     font-weight: 400;
     font-family: "pragmatica-extended", sans-serif;
@@ -100,7 +100,7 @@ a {
   }
 
 .space-taker{
-    width: 7.5%;
+    width: 20px;
 }
 
 .knob-card {
@@ -134,6 +134,8 @@ a {
     width: 100%;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
+    padding-bottom: none;
+    padding-top: none;
 }
 
 .card-element-container {
@@ -168,8 +170,12 @@ a {
     min-width: 3px;
     margin-left: 3px;
     height: 10px;
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.67);
     border-radius: 10px;
+}
+
+.filled {
+    background-color: black; 
 }
   
   #progress-ring {

@@ -29,6 +29,18 @@ let randOnInit = Math.random();
   .out(o0)
 
 //hydra
+
+//getting data, changing text
+
+const date = new Date();
+
+let day = date.getDate();
+let month = date.toLocaleString('default', { month: 'short' });
+
+document.getElementById("knob-card-day").innerHTML = day;
+document.getElementById("knob-card-month").innerHTML = month;
+
+
 function clamp(value, max, min) {
     return Math.max(min, Math.min(max, value));
   }
@@ -55,7 +67,11 @@ function clamp(value, max, min) {
   
   // Desktop events
   knob.addEventListener("mousedown", (e) => startInteraction(e.pageY));
+  knob.addEventListener("mousedown", (e) => e.preventDefault());
+
   document.addEventListener("mousemove", (e) => moveInteraction(e.pageY));
+  document.addEventListener("mousemove", (e) => e.preventDefault());
+
   document.addEventListener("mouseup", () => endInteraction());
   
   // Mobile events (mobile reacts to any touch at all)
