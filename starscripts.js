@@ -5,9 +5,8 @@ var hydra = new Hydra({
     makeGlobal: true,
   })
 
-const knob = document.getElementById("knob-inner");
+const knob = document.getElementById("sun-knob");
 const currentValue = 0;
-const progressRing = document.getElementById("progress-ring");
   
 let center = 0;
 var distance = 0;
@@ -43,7 +42,7 @@ function clamp(value, max, min) {
     if (mouseIsDown) {
       const newDistance = clamp(lastDistance + (center - pageY), 360, 0);
       distance = newDistance;
-      progressRing.style.background = `conic-gradient(hotpink 0deg, hotpink ${distance}deg, black ${distance}deg 360deg)`;
+      knob.style.background = `conic-gradient(black 0deg, black ${distance}deg, white ${distance}deg 360deg)`;
     }
   }
   

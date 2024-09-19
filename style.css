@@ -73,6 +73,21 @@ a {
     top: 2.5%;
     right: 7%;
   }
+
+.sun-knob {
+    background-color: white;
+    width: 120px;
+    height: 120px;
+    border-radius: 100px;
+    border: rgb(203, 203, 203) solid 5px;
+    align-items: center;
+    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.90);
+}
+
+.inner-sun-knob {
+    background-color: black;
+    width: 90%;
+}
   
   .knob_inner {
     position: absolute;
@@ -85,7 +100,7 @@ a {
   }
 
 .space-taker{
-    width: 5%;
+    width: 7.5%;
 }
 
 .knob-card {
