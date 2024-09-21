@@ -40,6 +40,11 @@ let month = date.toLocaleString('default', { month: 'short' });
 document.getElementById("knob-card-day").innerHTML = day;
 document.getElementById("knob-card-month").innerHTML = month;
 
+fetch("https://aa.usno.navy.mil/api/moon/phases/date?date=2024-9-20&nump=1")
+  .then((response) => response.json())
+  .then((response) => document.getElementById("knob-card-moonphase-text").innerHTML = response.phasedata[0].phase);
+
+//knobs
 
 function clamp(value, max, min) {
     return Math.max(min, Math.min(max, value));
