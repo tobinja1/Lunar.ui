@@ -75,13 +75,36 @@ a {
   }
 
 .sun-knob {
+    display: flex;
     background-color: white;
     width: 120px;
     height: 120px;
     border-radius: 100px;
     border: rgb(203, 203, 203) solid 5px;
     align-items: center;
+    justify-content: center;
     box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.90);
+}
+
+.sun-knob-inner-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 85%;
+    height: 85%;
+    border-radius: 100px;
+    background-color: #BBB6AE;
+}
+
+.sun-face {
+    width: 60%;
+    height: 60%;
+    margin-bottom: -5px;
+}
+
+.translate-down {
+    transform: translateY(15%);
 }
 
 .inner-sun-knob {

@@ -7,6 +7,7 @@ var hydra = new Hydra({
 
 const knob = document.getElementById("sun-knob");
 const currentValue = 0;
+var sunPercent = document.getElementById("sun-knob-percentage");
   
 let center = 0;
 var distance = 0;
@@ -82,6 +83,7 @@ function clamp(value, max, min) {
       const newDistance = clamp(lastDistance + (center - pageY), 360, 0);
       distance = newDistance;
       normDistance = distance/360;
+      sunPercent.innerHTML = Math.floor(normDistance * 100) + "%";
       knob.style.background = `conic-gradient(black 0deg, black ${distance}deg, white ${distance}deg 360deg)`;
     }
   }
