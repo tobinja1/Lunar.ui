@@ -116,7 +116,7 @@ setTimeout(() => {
   percentDay = Math.floor(fullCurrentCycle * distance);
   moonJump(whereWeAreNow * 360);
   console.log(percentDay);
-}, 500);
+}, 750);
 
 
 //knobs
