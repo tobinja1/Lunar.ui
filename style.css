@@ -84,6 +84,7 @@ a {
     align-items: center;
     justify-content: center;
     box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.90);
+    cursor: pointer;
 }
 
 .sun-knob-inner-info {
@@ -190,6 +191,7 @@ a {
     width: 20px;
     height: 100%;
     opacity: 0.4;
+    cursor: pointer;
 }
 
 .progress-bar-container {
