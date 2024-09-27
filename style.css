@@ -25,6 +25,8 @@ a {
     font-size: 0.8rem;
     color: white;
     opacity: 0.8;
+    font-weight: 200;
+    font-family: "pragmatica-extended", sans-serif;
 }
 
 .behind-hed {
@@ -57,6 +59,10 @@ a {
 .bottom-tag {
     position: absolute;
     bottom: 5px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.8rem;
+    font-weight: 200;
+    font-family: "pragmatica-extended", sans-serif;
 }
 
 .wrapper {
