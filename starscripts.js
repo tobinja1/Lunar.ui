@@ -15,6 +15,8 @@ let mouseIsDown = false;
 let lastDistance = 0;
 var normDistance = 0;
 var moonPhaseText;
+var newMoonDays = [];
+var percentDay;
 
 var newMoonIcon = document.getElementById("new-moon");
 var waxingMoonIcon = document.getElementById("waxing-moon");
@@ -40,7 +42,7 @@ let randOnInit = Math.random();
 
 //getting data, changing text
 
-const date = new Date();
+var date = new Date();
 
 let day = date.getDate();
 let month = date.toLocaleString('default', { month: 'short' });
@@ -72,6 +74,51 @@ fetch("https://aa.usno.navy.mil/api/rstt/oneday?date=" + fullDateline + "%20&coo
 //   document.getElementById("waning-moon").style.opacity = 1;
 // }
 
+function daysIntoYear(date){
+  return (Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) - Date.UTC(date.getFullYear(), 0, 0)) / 24 / 60 / 60 / 1000;
+}
+
+function doyToDate(doy, year) { 
+  initDoy = new Date(year, 0, doy);
+  doyDay = initDoy.getDate();
+  doyMonth = initDoy.getMonth() + 1;
+  doyYear = initDoy.getFullYear();
+  return(doyYear + "-" + doyMonth + "-" + doyDay);
+ } 
+
+adjustedDoy = daysIntoYear(new Date()) - 30;
+
+prevLunarMonth = doyToDate(adjustedDoy, date.getFullYear());
+
+fetch("https://aa.usno.navy.mil/api/moon/phases/date?date=" + prevLunarMonth + "&nump=8")
+  .then((response) => response.json())
+  // .then((response) => document.getElementById("knob-card-moonphase-text").innerHTML = response.phasedata[0].phase);
+  .then((response) => {
+    for (let i = 0; i < 8; i++){
+      innerResponse = response.phasedata[i].phase;
+      if(innerResponse == "New Moon") {
+        theDate = new Date(response.phasedata[i].year + "-" + response.phasedata[i].month + "-" + response.phasedata[i].day);
+        newMoonDays.push(daysIntoYear(theDate));
+      }
+      // if(innerResponse);
+    }
+  }
+);
+
+
+//i don't like this solution, i would rather it trigger automatically and not after a set delay
+
+setTimeout(() => {
+  daysAfterLast = daysIntoYear(date) - newMoonDays[0];
+  daysBeforeNext =  newMoonDays[1] - daysIntoYear(date);
+  fullCurrentCycle = newMoonDays[1] - newMoonDays[0];
+  whereWeAreNow = daysAfterLast / fullCurrentCycle;
+  percentDay = Math.floor(fullCurrentCycle * distance);
+  moonJump(whereWeAreNow * 360);
+  console.log(percentDay);
+}, 500);
+
+
 //knobs
 
 function clamp(value, max, min) {
@@ -91,16 +138,20 @@ function clamp(value, max, min) {
       moonIconCalc(normDistance)
       sunPercent.innerHTML = Math.floor(normDistance * 100) + "%";
       knob.style.background = `conic-gradient(black 0deg, black ${distance}deg, white ${distance}deg 360deg)`;
-    }
-  }
-
-  function moveEndlessInteraction(pageY) {
-    if (mouseIsDown) {
-      const newDistance = clamp(lastDistance + (center - pageY), 360, 0);
-      distance = newDistance;
-      normDistance = distance/360;
-      console.log(normDistance);
-      knob.style.background = `conic-gradient(black 0deg, black ${distance}deg, white ${distance}deg 360deg)`;
+      if(newMoonDays.length > 0 ){
+        fullCurrentCycle = newMoonDays[1] - newMoonDays[0];
+        whereWeAreNow = daysAfterLast / fullCurrentCycle;
+        percentDay = Math.floor(fullCurrentCycle * distance/360);
+        currentDay = newMoonDays[0] + percentDay;
+        displayedDate = new Date(doyToDate(currentDay, date.getFullYear()));
+        displayedDay = displayedDate.getDate();
+        displayedMonth = displayedDate.toLocaleString('default', { month: 'short' });
+        document.getElementById("knob-card-day").innerHTML = displayedDay;
+        document.getElementById("knob-card-month").innerHTML = displayedMonth;
+      }
+      else {
+        return;
+      }
     }
   }
   
@@ -126,24 +177,28 @@ function clamp(value, max, min) {
       document.getElementById("waxing-moon").style.opacity = 1;
       document.getElementById("full-moon").style.opacity = 0.4;
       document.getElementById("waning-moon").style.opacity = 0.4;
+      document.getElementById("knob-card-moonphase-text").innerHTML = "Waxing Crescent"
     }
     if(degree >= .50 && degree < .75) {
       document.getElementById("new-moon").style.opacity = 1;
       document.getElementById("waxing-moon").style.opacity = 1;
       document.getElementById("full-moon").style.opacity = 1;
       document.getElementById("waning-moon").style.opacity = 0.4;
+      document.getElementById("knob-card-moonphase-text").innerHTML = "Full Moon"
     }
     if(degree >= .75 && degree < 1) {
       document.getElementById("new-moon").style.opacity = 1;
       document.getElementById("waxing-moon").style.opacity = 1;
       document.getElementById("full-moon").style.opacity = 1;
       document.getElementById("waning-moon").style.opacity = 1;
+      document.getElementById("knob-card-moonphase-text").innerHTML = "Waning Crescent"
     }
     else if (degree < .25){
       document.getElementById("new-moon").style.opacity = 1;
       document.getElementById("waxing-moon").style.opacity = 0.4;
       document.getElementById("full-moon").style.opacity = 0.4;
       document.getElementById("waning-moon").style.opacity = 0.4;
+      document.getElementById("knob-card-moonphase-text").innerHTML = "New Moon"
     }
   }
   

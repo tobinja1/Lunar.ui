@@ -227,3 +227,7 @@ a {
     background: conic-gradient(hotpink 0deg, hotpink 0deg, black 0deg 360deg);
     z-index: -1;
   }
+
+#knob-card-day {
+    width: 15px;
+}
