@@ -124,13 +124,9 @@ function setCriticalInfo() {
 
 fetchCriticalInfo();
 
-setTimeout(setCriticalInfo, 500);
-
-setTimeout(fetchCriticalInfo, 1000);
-
-setTimeout(setCriticalInfo, 1100);
-// setCriticalInfo();
-
+setTimeout(function() {
+  setCriticalInfo()
+  }.bind(this), 500);
 
 //i don't like this solution, i would rather it trigger automatically and not after a set delay
 
