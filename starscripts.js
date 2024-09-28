@@ -124,7 +124,11 @@ function setCriticalInfo() {
 
 fetchCriticalInfo();
 
-setTimeout(setCriticalInfo, 750);
+setTimeout(setCriticalInfo, 500);
+
+setTimeout(fetchCriticalInfo, 1000);
+
+setTimeout(setCriticalInfo, 1100);
 // setCriticalInfo();
 
 
