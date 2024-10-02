@@ -198,6 +198,7 @@ a {
     height: 100%;
     opacity: 0.4;
     cursor: pointer;
+    transition: opacity 0.25s ease-in-out;
 }
 
 .progress-bar-container {
@@ -236,4 +237,8 @@ a {
 
 #knob-card-day {
     width: 15px;
+}
+
+#knob-card-month {
+    width: 25px;
 }

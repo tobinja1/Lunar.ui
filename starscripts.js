@@ -90,7 +90,8 @@ adjustedDoy = daysIntoYear(new Date()) - 30;
 
 prevLunarMonth = doyToDate(adjustedDoy, date.getFullYear());
 
-fetch("https://aa.usno.navy.mil/api/moon/phases/date?date=" + prevLunarMonth + "&nump=8")
+function fetchCriticalInfo() {
+  fetch("https://aa.usno.navy.mil/api/moon/phases/date?date=" + prevLunarMonth + "&nump=8")
   .then((response) => response.json())
   // .then((response) => document.getElementById("knob-card-moonphase-text").innerHTML = response.phasedata[0].phase);
   .then((response) => {
@@ -104,19 +105,40 @@ fetch("https://aa.usno.navy.mil/api/moon/phases/date?date=" + prevLunarMonth + "
     }
   }
 );
+}
 
+function setCriticalInfo() {
+  if(newMoonDays.length > 0){
+    daysAfterLast = daysIntoYear(date) - newMoonDays[0];
+    daysBeforeNext =  newMoonDays[1] - daysIntoYear(date);
+    fullCurrentCycle = newMoonDays[1] - newMoonDays[0];
+    whereWeAreNow = daysAfterLast / fullCurrentCycle;
+    percentDay = Math.floor(fullCurrentCycle * distance);
+    moonJump(whereWeAreNow * 360);
+    console.log(percentDay);
+    }
+  else {
+    fetchCriticalInfo();
+  }
+};
+
+fetchCriticalInfo();
+
+setTimeout(function() {
+  setCriticalInfo();
+  }, 500);
 
 //i don't like this solution, i would rather it trigger automatically and not after a set delay
 
-setTimeout(() => {
-  daysAfterLast = daysIntoYear(date) - newMoonDays[0];
-  daysBeforeNext =  newMoonDays[1] - daysIntoYear(date);
-  fullCurrentCycle = newMoonDays[1] - newMoonDays[0];
-  whereWeAreNow = daysAfterLast / fullCurrentCycle;
-  percentDay = Math.floor(fullCurrentCycle * distance);
-  moonJump(whereWeAreNow * 360);
-  console.log(percentDay);
-}, 750);
+// setTimeout(() => {
+//   daysAfterLast = daysIntoYear(date) - newMoonDays[0];
+//   daysBeforeNext =  newMoonDays[1] - daysIntoYear(date);
+//   fullCurrentCycle = newMoonDays[1] - newMoonDays[0];
+//   whereWeAreNow = daysAfterLast / fullCurrentCycle;
+//   percentDay = Math.floor(fullCurrentCycle * distance);
+//   moonJump(whereWeAreNow * 360);
+//   console.log(percentDay);
+// }, 750);
 
 
 //knobs
@@ -139,6 +161,7 @@ function clamp(value, max, min) {
       sunPercent.innerHTML = Math.floor(normDistance * 100) + "%";
       knob.style.background = `conic-gradient(black 0deg, black ${distance}deg, white ${distance}deg 360deg)`;
       if(newMoonDays.length > 0 ){
+        daysAfterLast = daysIntoYear(date) - newMoonDays[0];
         fullCurrentCycle = newMoonDays[1] - newMoonDays[0];
         whereWeAreNow = daysAfterLast / fullCurrentCycle;
         percentDay = Math.floor(fullCurrentCycle * distance/360);
@@ -150,7 +173,7 @@ function clamp(value, max, min) {
         document.getElementById("knob-card-month").innerHTML = displayedMonth;
       }
       else {
-        return;
+        fetchCriticalInfo();
       }
     }
   }
